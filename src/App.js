@@ -1,6 +1,6 @@
 
 import './App.css';
-import { useEffect, useRef, useState } from 'react';
+import {useRef, useState } from 'react';
 
 function App() {
   const [items,setItems] = useState([]);
@@ -19,8 +19,8 @@ function App() {
     setItems(a)
   }
   const spin = () =>{
+    setResult("")
     if(items.length<2) return;
-    
     button.current.disabled = true
     let unit = 360/items.length;
     let force = (Math.random()*unit)*(Math.random()*items.length)+unit+600
@@ -29,7 +29,7 @@ function App() {
     setTimeout(()=>{setResult(items[parseInt(now%360/(360/items.length))]);button.current.disabled = false},6000)
   }
   let jsx = <></>
-  jsx = items.map(e=><span className='item'><button className='button-2' onClick={()=>remove(e)}>x</button>{e}</span>)
+  jsx = items.map(e=><span key={Math.random()} className='item'><button className='button-2' onClick={()=>remove(e)}>x</button>{e}</span>)
   return (
     <div className="App">
       <div className='wheel-side'>
@@ -37,12 +37,11 @@ function App() {
         <h1>{result}</h1>
         <div className='arrow'/>
       </div>
-
       <div className='menu'>
         <div className='list'>
           {jsx}
         </div>
-        <input type='text' value={text} onChange={(e)=>setText(e.target.value)}/>
+        <input type='text' value={text} onChange={(e)=>setText(e.target.value)} placeholder='add next'/>
       <button className='button-1' onClick={add}>ADD</button>
       <button className='button-1' onClick={spin} ref={button}>SPIN</button>
       </div>
